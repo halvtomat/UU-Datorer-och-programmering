@@ -1,0 +1,97 @@
+Startnummer? 33
+Starttid? 17 30 15
+Måltid? 18 22 35
+Startnummer? -1
+Vinnar är startnr: 33
+Tim: 0 Min: 52 Sek: 20
+Antal Tävlande: 1
+Programmet avslutas
+ 
+Startnummer? 33
+Starttid? 0 30 15
+Måltid? 19 22 35
+Startnummer? -1
+Vinnar är startnr: 33
+Tim: 18 Min: 52 Sek: 20
+Antal Tävlande: 1
+Programmet avslutas
+ 
+Startnummer? 33
+Starttid? 17 30 15
+Måltid? 18 22 35
+Startnummer? 14
+Starttid? 23 35 0
+Måltid? 0 12 24
+Startnummer? 26
+Starttid? 10 11 12
+Måltid? 20 21 22
+Startnummer? -1
+Vinnar är startnr: 14
+Tim: 0 Min: 37 Sek: 24
+Antal Tävlande: 3
+Programmet avslutas
+ 
+Startnummer? 14
+Starttid? 23 35 0
+Måltid? 0 12 24
+Startnummer? 26
+Starttid? 10 11 12
+Måltid? 20 21 22
+Startnummer? 33
+Starttid? 17 30 15
+Måltid? 18 22 35
+Startnummer? -1
+Vinnar är startnr: 14
+Tim: 0 Min: 37 Sek: 24
+Antal Tävlande: 3
+Programmet avslutas
+ 
+Startnummer? 26
+Starttid? 10 11 12
+Måltid? 20 21 22
+Startnummer? 33
+Starttid? 17 30 15
+Måltid? 18 22 35
+Startnummer? 14
+Starttid? 23 35 0
+Måltid? 0 12 24
+Startnummer? -1
+Vinnar är startnr: 14
+Tim: 0 Min: 37 Sek: 24
+Antal Tävlande: 3
+Programmet avslutas
+ 
+Startnummer? 17
+Starttid? 0 0 50
+Måltid? 0 0 30
+Startnummer? -1
+Vinnar är startnr: 17
+Tim: 23 Min: 59 Sek: 40
+Antal Tävlande: 1
+Programmet avslutas
+ 
+Startnummer? -1
+Inga tävlande
+Programmet avslutas
+ 
+Startnummer? 15
+Starttid? 10 0 0
+Måltid? 11 0 0
+Startnummer? 12
+Starttid? 11 0 0
+Måltid? 10 0 10
+Startnummer? -1
+Vinnar är startnr: 15
+Tim: 1 Min: 0 Sek: 0
+Antal Tävlande: 2
+Programmet avslutas
+ 
+Startnummer? 8
+Starttid? 0 0 10
+Måltid? 0 0 20
+Startnummer? -1
+Vinnar är startnr: 8
+Tim: 0 Min: 0 Sek: 10
+Antal Tävlande: 1
+Programmet avslutas
+ 
