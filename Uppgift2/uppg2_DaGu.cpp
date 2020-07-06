@@ -15,7 +15,7 @@ Jag har använt kompilator/editor (namn/version) GCC 9.2.1/  Visual Studio Code 
 Jag har använt följande dator (t.ex. PC, Mac, Annat):        PC
       med operativsystemet (t.ex. WindowsXP, Windows7,...) : Ubuntu 19.10
 
-Jag har arbetat ungefär  2 timmar med denna uppgift
+Jag har arbetat ungefär 2 timmar med denna uppgift
 
 ================================================================================*/
 

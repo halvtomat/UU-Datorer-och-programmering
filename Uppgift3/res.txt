@@ -1,0 +1,47 @@
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 3
+Skriv in ett tal: 5
+Skriv in en operator: a
+Svaret är: 12
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 3
+Skriv in ett tal: 5
+Skriv in en operator: m
+Svaret är: 60
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 3
+Skriv in ett tal: 5
+Skriv in en operator: k
+Svaret är: 50
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: -3
+Skriv in ett tal: 5
+Skriv in en operator: m
+Svaret är: 0
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 5
+Skriv in ett tal: 3
+Skriv in en operator: a
+Svaret är: 12
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: -3
+Skriv in ett tal: -5
+Skriv in en operator: a
+Svaret är: -12
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 1
+Skriv in ett tal: 100
+Skriv in en operator: k
+Svaret är: 338350
+ 
+Det här programmet läser in 2 tal och en operator för att sedan göra en beräkning och skriva ut svaret
+Skriv in ett tal: 1
+Skriv in ett tal: 1000
+Skriv in en operator: m
+Svaret är: 0
