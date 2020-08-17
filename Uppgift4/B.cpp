@@ -32,7 +32,23 @@ const double TOLK_HJALP[ANTAL_SPRAK][ANTAL_BOKSTAVER]=
         0.01,6.30,6.99,5.19,3.92,0.77,1.79,0.01,
         0.69,1.24}};
 
+string get_lan(int i){
+    switch(i){
+        case 0:
+            return "engelska";
+        case 1:
+            return "franska";
+        case 2:
+            return "svenska";
+        case 3:
+            return "tyska";
+        default:
+            return "undefined";
+    }
+}
+
 int berakna_histogram_abs(string text, double histogram[]){
+    cout << "a" << endl;
     int antal = 0;
     for(int i = 0; i < text.length(); i++){
         if(text[i] >= 'a') text[i] -= 'a';
@@ -41,7 +57,9 @@ int berakna_histogram_abs(string text, double histogram[]){
             histogram[text[i]]++;
             antal++;
         }
+        cout << i << endl;
     }
+    cout << "Totala antalet bokstäver: " + antal << endl;
     return antal;
 }
 
@@ -53,6 +71,7 @@ void abs_till_rel(int antal, double histogram[]){
 
 void plotta_histogram(double histogram[]){
     char bokstav = 'A';
+    cout << "Bokstavsfördelning:" << endl << endl;
     for(int i = 0; i < ANTAL_BOKSTAVER; i++){
         cout << bokstav << " ";
         for(int j = 0; j < nearbyint(histogram[i]); j++){
@@ -65,16 +84,20 @@ void plotta_histogram(double histogram[]){
 
 void tolka(double histogram[]){
     double kvadratsumma[ANTAL_SPRAK] = {};
+    int most_likely = 0;
     for (int i = 0; i < ANTAL_SPRAK; i++){
         for(int j = 0; j < ANTAL_BOKSTAVER; j++){
             kvadratsumma[i] += pow(histogram[j] - TOLK_HJALP[i][j], 2);
         }
-        cout << kvadratsumma[i] << endl;
+        cout << get_lan(i) + " har kvadratsumma= "   << kvadratsumma[i] << endl;
+        if(kvadratsumma[i] > kvadratsumma[most_likely]) most_likely = i;
     }
+    cout << "Det är mest troligt att språket är " + get_lan(most_likely) << endl << endl;
 }
 
 string namn_pa_fil(){
     string filnamn = "";
+    cout << "Ange filnamn:" << endl;
     cin >> filnamn;
     return filnamn;
 }
@@ -83,7 +106,12 @@ string inlasning(string filnamn){
     string text = "";
     string rad;
     ifstream fil(filnamn);
+    if(!fil.is_open()) {
+        cout << "Det finns ingen fil med namnet " + filnamn << endl;
+        return "";
+    }
     while(getline(fil, rad)) text.append(rad);
+    fil.close();
     return text;
 }
 
@@ -93,11 +121,12 @@ int main(){
     int antal;  
 
     text = inlasning(namn_pa_fil());
+    if(text == "") return 0;
 
     antal = berakna_histogram_abs(text, histogram);
     abs_till_rel(antal, histogram);
-    plotta_histogram(histogram);
     tolka(histogram);
+    plotta_histogram(histogram);
 
     return 0;
 }

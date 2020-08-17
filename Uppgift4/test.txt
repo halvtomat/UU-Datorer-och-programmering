@@ -1,1 +1,0 @@
-for i in {1..4}; do echo -e "Test$i\n" >> res.txt && ./a.out < test$i.txt >> res.txt && echo -e "\n" >> res.txt; done

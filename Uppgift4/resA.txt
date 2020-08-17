@@ -1,4 +1,4 @@
-Test1
+TestA1
 
 Ge en rad med text:
 AbCdNNooPPwXyZ
@@ -36,7 +36,7 @@ Y: 1
 Z: 1
 
 
-Test2
+TestA2
 
 Ge en rad med text:
 1234ddddacccbb!?
@@ -74,7 +74,7 @@ Y: 0
 Z: 0
 
 
-Test3
+TestA3
 
 Ge en rad med text:
 Denna rad innehåller ett å!
@@ -112,7 +112,7 @@ Y: 0
 Z: 0
 
 
-Test4
+TestA4
 
 Ge en rad med text:
 
