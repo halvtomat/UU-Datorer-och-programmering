@@ -252,10 +252,8 @@ X: 0
 Y: 0
 Z: 0
 
-
-
 ================================================================================
-Uppgiften gick ut på att beräkna ett histogram av en rad text.
+Uppgiften gick ut på att beräkna ett histogram av en rad text med hjälp av en klass.
 
-(Svar på frågor finns i 4B)
+(Svar på frågor finns i 5B)
 */

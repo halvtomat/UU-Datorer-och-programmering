@@ -1,0 +1,147 @@
+TestB1
+
+Ange filnamn:
+doyle.txt
+Bokstavsfördelning:
+
+A ********
+B *
+C ***
+D ****
+E ************
+F **
+G *
+H ******
+I ********
+J 
+K *
+L ****
+M ***
+N ******
+O ********
+P **
+Q 
+R ******
+S ******
+T *********
+U ***
+V *
+W **
+X 
+Y **
+Z 
+engelska
+
+
+TestB2
+
+Ange filnamn:
+goethe.txt
+Bokstavsfördelning:
+
+A *****
+B **
+C ****
+D *****
+E *****************
+F *
+G ***
+H ******
+I *********
+J 
+K *
+L ***
+M ***
+N ***********
+O **
+P 
+Q 
+R ******
+S *******
+T ******
+U ****
+V *
+W **
+X 
+Y *
+Z *
+tyska
+
+
+TestB3
+
+Ange filnamn:
+lagerlof.txt
+Bokstavsfördelning:
+
+A ***********
+B *
+C *
+D ******
+E **********
+F **
+G ****
+H ****
+I ****
+J *
+K ***
+L *****
+M ****
+N *********
+O ****
+P *
+Q 
+R *******
+S *******
+T *********
+U **
+V ***
+W 
+X 
+Y 
+Z 
+svenska
+
+
+TestB4
+
+Ange filnamn:
+verne.txt
+Bokstavsfördelning:
+
+A ********
+B *
+C ****
+D ****
+E *****************
+F *
+G *
+H *
+I *******
+J 
+K 
+L *****
+M ***
+N ********
+O *****
+P ***
+Q *
+R *******
+S ********
+T *******
+U ******
+V *
+W 
+X *
+Y 
+Z 
+franska
+
+
+TestB5
+
+Ange filnamn:
+finnsInte.txt
+Det finns ingen fil med namnet finnsInte.txt
+
+
