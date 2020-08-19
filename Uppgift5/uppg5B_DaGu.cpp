@@ -82,6 +82,7 @@ string namn_pa_fil(){
 
 // Läser in en fil baserat på ett filnamn.
 string inlasning(string filnamn){
+    if(filnamn.length() < 4) filnamn.append(".txt");
     if(filnamn.substr(filnamn.length()-4,4) != ".txt") filnamn.append(".txt");
     string text = "";
     string rad;
