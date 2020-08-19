@@ -82,6 +82,7 @@ string namn_pa_fil(){
 
 // Läser in en fil baserat på ett filnamn.
 string inlasning(string filnamn){
+    if(filnamn.substr(filnamn.length()-4,4) != ".txt") filnamn.append(".txt");
     string text = "";
     string rad;
     ifstream fil(filnamn);
@@ -159,7 +160,7 @@ void Text::plottaHistogramRel(){
     for(int i = 0; i < ANTAL_BOKSTAVER; i++){
         cout << bokstav << " ";
         for(int j = 0; j < nearbyint(histogramRel[i]); j++){
-            cout << '*';
+            cout << "**";
         }
         cout << endl;
         bokstav++;
@@ -199,34 +200,34 @@ Här följer programkörningar för alla testdata:
 TestB1
 
 Ange filnamn:
-doyle.txt
+doyle
 Bokstavsfördelning:
 
-A ********
-B *
-C ***
-D ****
-E ************
-F **
-G *
-H ******
-I ********
+A ****************
+B **
+C ******
+D ********
+E ************************
+F ****
+G **
+H ************
+I ****************
 J 
-K *
-L ****
-M ***
-N ******
-O ********
-P **
+K **
+L ********
+M ******
+N ************
+O ****************
+P ****
 Q 
-R ******
-S ******
-T *********
-U ***
-V *
-W **
+R ************
+S ************
+T ******************
+U ******
+V **
+W ****
 X 
-Y **
+Y ****
 Z 
 engelska
 
@@ -237,63 +238,63 @@ Ange filnamn:
 goethe.txt
 Bokstavsfördelning:
 
-A *****
-B **
-C ****
-D *****
-E *****************
-F *
-G ***
-H ******
-I *********
+A **********
+B ****
+C ********
+D **********
+E **********************************
+F **
+G ******
+H ************
+I ******************
 J 
-K *
-L ***
-M ***
-N ***********
-O **
+K **
+L ******
+M ******
+N **********************
+O ****
 P 
 Q 
-R ******
-S *******
-T ******
-U ****
-V *
-W **
+R ************
+S **************
+T ************
+U ********
+V **
+W ****
 X 
-Y *
-Z *
+Y **
+Z **
 tyska
 
 
 TestB3
 
 Ange filnamn:
-lagerlof.txt
+lagerlof
 Bokstavsfördelning:
 
-A ***********
-B *
-C *
-D ******
-E **********
-F **
-G ****
-H ****
-I ****
-J *
-K ***
-L *****
-M ****
-N *********
-O ****
-P *
+A **********************
+B **
+C **
+D ************
+E ********************
+F ****
+G ********
+H ********
+I ********
+J **
+K ******
+L **********
+M ********
+N ******************
+O ********
+P **
 Q 
-R *******
-S *******
-T *********
-U **
-V ***
+R **************
+S **************
+T ******************
+U ****
+V ******
 W 
 X 
 Y 
@@ -307,30 +308,30 @@ Ange filnamn:
 verne.txt
 Bokstavsfördelning:
 
-A ********
-B *
-C ****
-D ****
-E *****************
-F *
-G *
-H *
-I *******
+A ****************
+B **
+C ********
+D ********
+E **********************************
+F **
+G **
+H **
+I **************
 J 
 K 
-L *****
-M ***
-N ********
-O *****
-P ***
-Q *
-R *******
-S ********
-T *******
-U ******
-V *
+L **********
+M ******
+N ****************
+O **********
+P ******
+Q **
+R **************
+S ****************
+T **************
+U ************
+V **
 W 
-X *
+X **
 Y 
 Z 
 franska
