@@ -6,9 +6,9 @@
 
 using namespace std;
 
-const int MAX_KOMPISAR = 6;
-const int MAX_PERSONER = 6;
-const int MAX_TRANSAKTIONER = 20;
+const int MAX_KOMPISAR = 10;
+const int MAX_PERSONER = 10;
+const int MAX_TRANSAKTIONER = 30;
 
 class Transaktion{
     private:
@@ -30,23 +30,6 @@ class Transaktion{
         void skrivEnTrans(ostream &os);
 }; 
 
-class TransaktionsLista{
-    private:
-        Transaktion trans[MAX_TRANSAKTIONER];
-        int antalTrans;
-
-    public:
-        TransaktionsLista();
-        ~TransaktionsLista();
-        void laesin(istream & is);
-        void skrivut(ostream & os);
-        void laggTill(Transaktion &t);
-        double totalkostnad();
-        double liggerUteMed(string namnet);
-        double aerSkyldig(string namnet);
-        PersonLista FixaPersoner();
-};
-
 class Person{
     private:
         string namn;
@@ -56,6 +39,7 @@ class Person{
     public:
         Person();
         Person(string n, double b, double s);
+        string haemta_namn();
         double haemta_betalat();
         double haemta_skyldig();
         void skrivUt();
@@ -76,11 +60,124 @@ class PersonLista{
         bool finnsPerson(const string &namn);
 }; 
 
+class TransaktionsLista{
+    private:
+        Transaktion trans[MAX_TRANSAKTIONER];
+        int antalTrans;
 
+    public:
+        TransaktionsLista();
+        ~TransaktionsLista();
+        void laesin(istream & is);
+        void skrivut(ostream & os);
+        void laggTill(Transaktion &t);
+        double totalkostnad();
+        double liggerUteMed(string namnet);
+        double aerSkyldig(string namnet);
+        PersonLista FixaPersoner();
+};
 
+//-------------------------------------- FUNKTIONER --------------------------------------
 
+void printMenu(){
+    cout << endl << endl;
+    cout << "Välj i menyn nedan:" << endl;
+    cout << "0. Avsluta. Alla transaktioner sparas på fil." << endl;
+    cout << "1. Läs in en transaktion från tangentbordet." << endl;
+    cout << "2. Skriv ut information om alla transaktioner." << endl;
+    cout << "3. Beräkna totala kostnaden." << endl;
+    cout << "4. Hur mycket är en viss person skyldig?" << endl;
+    cout << "5. Hur mycket ligger en viss person ute med?" << endl;
+    cout << "6. Lista alla personer mm och FIXA!!!" << endl;
+    cout << endl;
+}
 
-//-------------------------------------- KLASSMETODER------------------------------------
+TransaktionsLista laesInTransaktioner(){
+    TransaktionsLista tl;
+    string filnamn;
+    cout << "Data-fil namn: ";
+    cin >> filnamn;
+    cout << endl << endl;
+    ifstream fil(filnamn);
+    tl.laesin(fil);
+    fil.close();
+    return tl;
+}
+
+void sparaTransaktioner(TransaktionsLista tl){
+    string filnamn;
+    cout << "Spar-fil namn: ";
+    cin >> filnamn;
+    cout << endl << endl;
+    ofstream fil(filnamn);
+    tl.skrivut(fil);
+    fil.close();
+}
+
+//-------------------------------------- MAIN --------------------------------------------
+
+int main(){
+    bool running = true;
+    TransaktionsLista tl = laesInTransaktioner();
+
+    while(running){
+        int val;
+        printMenu();
+        cin >> val;
+        switch(val){
+            case 0:{
+                sparaTransaktioner(tl);
+                running = false;
+                break;
+            }
+            case 1:{
+                Transaktion t;
+                t.laesEnTrans(cin);
+                tl.laggTill(t);
+                break;
+            }
+            case 2:{
+                tl.skrivut(cout);
+                break;
+            }
+            case 3:{
+                cout << "Total Kostnad: ";
+                cout << tl.totalkostnad();
+                cout << endl << endl;
+                break;
+            }
+            case 4:{
+                string namn;
+                cout << "Namn på personen: ";
+                cin >> namn;
+                cout << endl << endl;
+                cout << namn << " är skyldig: ";
+                cout << tl.aerSkyldig(namn);
+                cout << endl << endl;
+                break;
+            }
+            case 5:{
+                string namn;
+                cout << "Namn på personen: ";
+                cin >> namn;
+                cout << endl << endl;
+                cout << namn << " ligger ute med: ";
+                cout << tl.liggerUteMed(namn);
+                cout << endl << endl;
+                break;
+            }
+            case 6:{
+                PersonLista pl = tl.FixaPersoner();
+                pl.skrivUtOchFixa();
+                break;
+            }
+        }
+    }
+    
+    return 0;
+}
+
+//-------------------------------------- KLASSMETODER ------------------------------------
 //TRANSAKTION
 
 Transaktion::Transaktion():kompisar {}{
@@ -91,38 +188,38 @@ Transaktion::Transaktion():kompisar {}{
     ant_kompisar = 0;
 }
 
+Transaktion::~Transaktion(){}
+
 string Transaktion::haemta_namn() {return namn;}
 double Transaktion::haemta_belopp() {return belopp;}
 int Transaktion::haemta_ant_kompisar() {return ant_kompisar;}
 
 bool Transaktion::finnsKompis(string namnet){
-    for(int i = 0; i < MAX_KOMPISAR; i++)
+    for(int i = 0; i < ant_kompisar; i++)
         if(kompisar[i] == namnet) return true;
     return false;
 }
 
 bool Transaktion::laesEnTrans(istream &is){
+    if(is.eof()) return false;
     is >> datum;
     is >> typ;
     is >> namn;
     is >> belopp;
     is >> ant_kompisar;
-    for(int i = 0; i < ant_kompisar; i++){
+    for(int i = 0; i < ant_kompisar; i++)
         is >> kompisar[i];
-    }
+    return true;
 }
 
 void Transaktion::skrivEnTrans(ostream &os){
-    os << "Datum: " << datum << endl;
-    os << "Typ: " << typ << endl;
-    os << "Namn: " << namn << endl;
-    os << "Belopp: " << belopp << endl;
-    os << "Antal Kompisar: " << ant_kompisar << endl;
-    for(int i = 0; i < ant_kompisar; i++){
-        os << "Kompis nr " << i << ": ";
-        os << kompisar[i] << endl;
-    }
-    os << endl;
+    os << datum;
+    os << '\t' << typ;
+    os << '\t' << namn;
+    os << '\t' << belopp;
+    os << '\t' << ant_kompisar;
+    for(int i = 0; i < ant_kompisar; i++)
+        os << '\t' << kompisar[i];
 }
 
 //-------
@@ -131,6 +228,8 @@ void Transaktion::skrivEnTrans(ostream &os){
 TransaktionsLista::TransaktionsLista(): trans {}{
     antalTrans = 0;
 }
+
+TransaktionsLista::~TransaktionsLista(){}
 
 void TransaktionsLista::laesin(istream &is){
     //En inläsningsmetod i klassen TransaktionsLista.
@@ -143,18 +242,13 @@ void TransaktionsLista::laesin(istream &is){
 }
 
 void TransaktionsLista::skrivut(ostream &os){
-    os << "Antal Transaktioner: " << antalTrans << endl;
     for(int i = 0; i < antalTrans; i++){
-        os << "Transaktion nr " << i << ": ";
-        os << trans[i] << endl;
+        trans[i].skrivEnTrans(os);
+        if(i != antalTrans-1)os << '\n';
     }
-    os << endl;
 }
 
-void TransaktionsLista::laggTill(Transaktion &t){
-    trans[antalTrans] = t;
-    antalTrans++;
-}
+void TransaktionsLista::laggTill(Transaktion &t){trans[antalTrans++] = t;}
 
 double TransaktionsLista::totalkostnad(){
     double total = 0;
@@ -176,13 +270,22 @@ double TransaktionsLista::aerSkyldig(string Namnet){
     double aerSkyldig = 0;
     for(int i = 0; i < antalTrans; i++){
         if(!trans[i].finnsKompis(Namnet)) continue;
-        aerSkyldig += trans[i].haemta_belopp()*(trans[i].haemta_ant_kompisar() + 1);
+        aerSkyldig += trans[i].haemta_belopp()/(trans[i].haemta_ant_kompisar() + 1);
     }
     return aerSkyldig;
 }
 
 PersonLista TransaktionsLista::FixaPersoner(){
-
+    PersonLista pl;
+    for(int i = 0; i < antalTrans; i++){
+        string namn = trans[i].haemta_namn();
+        if(pl.finnsPerson(namn)) continue;
+        double uteMed = liggerUteMed(namn);
+        double skyldig = aerSkyldig(namn);
+        Person p(namn, uteMed, skyldig);
+        pl.laggTillEn(p);
+    }
+    return pl;
 }
 
 //-------
@@ -194,16 +297,62 @@ Person::Person(){
     skyldig = 0;
 }
 
+Person::Person(string n, double b, double s){
+    namn = n;
+    betalat_andras = b;
+    skyldig = s;
+}
+
+string Person::haemta_namn(){return namn;}
 double Person::haemta_betalat(){return betalat_andras;}
 double Person::haemta_skyldig(){return skyldig;}
 
 void Person::skrivUt(){
-    cout << namn << "ligger ute med: " << betalat_andras << " och är skyldig: " << skyldig << " Skall ha " << betalat_andras-skyldig << "från potten!" << endl;
+    cout << namn; 
+    cout << " ligger ute med: " << betalat_andras;
+    cout << " och är skyldig: " << skyldig;
+    if(betalat_andras < skyldig) cout << " Skall lägga " << skyldig-betalat_andras<< " till potten!" << endl;
+    else cout << " Skall ha " << betalat_andras-skyldig << " från potten!" << endl;
 }
 
 //-------
 //PERSONLISTA
 
+PersonLista::PersonLista(): pers {}{antal_pers = 0;}
 
+PersonLista::~PersonLista(){}
+
+void PersonLista::laggTillEn(Person pny){pers[antal_pers++] = pny;}
+
+void PersonLista::skrivUtOchFixa(){
+    for(int i = 0; i < antal_pers; i++){
+        pers[i].skrivUt();
+    }
+    cout << endl;
+    cout << "Potten innehåller: " << summaBetalat();
+    cout << " och folk ska ta: " << summaSkyldig() << endl;
+    if(nearbyint(summaBetalat()) == nearbyint(summaSkyldig())) cout << "Potten stämmer!" << endl;
+    else cout << "Potten är fel! :(" << endl;
+}
+
+double PersonLista::summaBetalat(){
+    double betalat = 0;
+    for(int i = 0; i < antal_pers; i++)
+        betalat += pers[i].haemta_betalat();
+    return betalat;
+}
+
+double PersonLista::summaSkyldig(){
+    double skyldig = 0;
+    for(int i = 0; i < antal_pers; i++)
+        skyldig += pers[i].haemta_skyldig();
+    return skyldig;
+}
+
+bool PersonLista::finnsPerson(const string &namn){
+    for(int i = 0; i < antal_pers; i++)
+        if(pers[i].haemta_namn() == namn) return true;
+    return false;
+}
 
 //-------
