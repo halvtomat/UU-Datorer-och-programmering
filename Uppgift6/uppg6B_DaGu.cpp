@@ -1,7 +1,7 @@
 /*================================================================================
 Datorer och programmering, DoP, 10 hsp, termin/år: Sommar/2020
 
-Inlämningsuppgift nr 5
+Inlämningsuppgift nr 6
 
 Namn: Daniel Gustafsson
 
