@@ -1,7 +1,7 @@
 /*================================================================================
 Datorer och programmering, DoP, 10 hsp, termin/år: Sommar/2020
 
-Inlämningsuppgift nr 6
+Inlämningsuppgift nr 5
 
 Namn: Daniel Gustafsson
 
@@ -15,7 +15,7 @@ Jag har använt kompilator/editor (namn/version) GCC 9.2.1/  Visual Studio Code 
 Jag har använt följande dator (t.ex. PC, Mac, Annat):        PC
       med operativsystemet (t.ex. WindowsXP, Windows7,...) : Ubuntu 19.10
 
-Jag har arbetat ungefär 3 timmar med denna uppgift
+Jag har arbetat ungefär 2 timmar med denna uppgift
 
 ================================================================================*/
 
@@ -27,10 +27,6 @@ Jag har arbetat ungefär 3 timmar med denna uppgift
 
 using namespace std;
 
-const int MAX_KOMPISAR = 10;
-const int MAX_PERSONER = 10;
-const int MAX_TRANSAKTIONER = 30;
-
 class Transaktion{
     private:
         string datum;
@@ -38,11 +34,12 @@ class Transaktion{
         string namn;
         double belopp;
         int ant_kompisar;
-        string kompisar[MAX_KOMPISAR];
+        string *kompisar;
 
     public:
         Transaktion();
         ~Transaktion();
+        Transaktion& operator=(const Transaktion& t);
         string haemta_namn();
         double haemta_belopp();
         int haemta_ant_kompisar();
@@ -54,8 +51,8 @@ class Transaktion{
 class Person{
     private:
         string namn;
-        double betalat_andras;   // ligger ute med totalt
-        double skyldig;          // skyldig totalt
+        double betalat_andras;
+        double skyldig;
 
     public:
         Person();
@@ -69,7 +66,7 @@ class Person{
 class PersonLista{
     private:
         int antal_pers;
-        Person pers[MAX_PERSONER];
+        Person *pers;
 
     public:
         PersonLista();
@@ -83,19 +80,22 @@ class PersonLista{
 
 class TransaktionsLista{
     private:
-        Transaktion trans[MAX_TRANSAKTIONER];
+        Transaktion *trans;
         int antalTrans;
 
     public:
         TransaktionsLista();
         ~TransaktionsLista();
-        void laesin(istream & is);
-        void skrivut(ostream & os);
+        void laesinInit(istream &is);
+        void laesin(istream &is);
+        void skrivut(ostream &os);
         void laggTill(Transaktion &t);
+        void newTrans();
         double totalkostnad();
         double liggerUteMed(string namnet);
         double aerSkyldig(string namnet);
         PersonLista FixaPersoner();
+        Transaktion *allocTrans(int antal);
 };
 
 //-------------------------------------- FUNKTIONER --------------------------------------
@@ -120,7 +120,7 @@ TransaktionsLista laesInTransaktioner(){
     cin >> filnamn;
     cout << endl << endl;
     ifstream fil(filnamn);
-    tl.laesin(fil);
+    tl.laesinInit(fil);
     fil.close();
     return tl;
 }
@@ -152,9 +152,7 @@ int main(){
                 break;
             }
             case 1:{
-                Transaktion t;
-                t.laesEnTrans(cin);
-                tl.laggTill(t);
+                tl.laesin(cin);
                 break;
             }
             case 2:{
@@ -211,13 +209,26 @@ Transaktion::Transaktion():kompisar {}{
 
 Transaktion::~Transaktion(){}
 
+Transaktion& Transaktion::operator=(const Transaktion& t){
+    if (this != &t){
+        delete[] kompisar;
+        datum = t.datum;
+        typ = t.typ;
+        namn = t.namn;
+        belopp = t.belopp;
+        ant_kompisar = t.ant_kompisar;
+        kompisar = new string[ant_kompisar];
+        for (int i=0; i < ant_kompisar; i++) kompisar[i] = t.kompisar[i];
+        }
+    return *this;
+}
+
 string Transaktion::haemta_namn() {return namn;}
 double Transaktion::haemta_belopp() {return belopp;}
 int Transaktion::haemta_ant_kompisar() {return ant_kompisar;}
 
 bool Transaktion::finnsKompis(string namnet){
-    for(int i = 0; i < ant_kompisar; i++)
-        if(kompisar[i] == namnet) return true;
+    for(int i = 0; i < ant_kompisar; i++) if(kompisar[i] == namnet) return true;
     return false;
 }
 
@@ -228,8 +239,8 @@ bool Transaktion::laesEnTrans(istream &is){
     is >> namn;
     is >> belopp;
     is >> ant_kompisar;
-    for(int i = 0; i < ant_kompisar; i++)
-        is >> kompisar[i];
+    kompisar = new string[ant_kompisar];
+    for(int i = 0; i < ant_kompisar; i++) is >> kompisar[i];
     return true;
 }
 
@@ -239,27 +250,38 @@ void Transaktion::skrivEnTrans(ostream &os){
     os << '\t' << namn;
     os << '\t' << belopp;
     os << '\t' << ant_kompisar;
-    for(int i = 0; i < ant_kompisar; i++)
-        os << '\t' << kompisar[i];
+    for(int i = 0; i < ant_kompisar; i++) os << '\t' << kompisar[i];
 }
 
 //-------
 //TRANSAKTIONSLISTA
 
-TransaktionsLista::TransaktionsLista(): trans {}{
+TransaktionsLista::TransaktionsLista(){
     antalTrans = 0;
 }
 
 TransaktionsLista::~TransaktionsLista(){}
 
-void TransaktionsLista::laesin(istream &is){
+void TransaktionsLista::laesinInit(istream &is){
     //En inläsningsmetod i klassen TransaktionsLista.
     Transaktion t;
+    int antal = 0;
+    string s;
+    while(getline(is,s)) antal++;
+    trans = allocTrans(antal);
+
+    is.clear();
+    is.seekg(0,ios::beg);
   
     //Så länge det går bra att läsa (filen ej slut)
-    while (t.laesEnTrans(is)){
+    while(t.laesEnTrans(is))
         laggTill( t );
-    }
+}
+void TransaktionsLista::laesin(istream &is){
+    Transaktion t;
+    t.laesEnTrans(is);
+    newTrans();
+    laggTill(t);
 }
 
 void TransaktionsLista::skrivut(ostream &os){
@@ -270,6 +292,15 @@ void TransaktionsLista::skrivut(ostream &os){
 }
 
 void TransaktionsLista::laggTill(Transaktion &t){trans[antalTrans++] = t;}
+
+Transaktion *TransaktionsLista::allocTrans(int antal){return new Transaktion[antal];}
+
+void TransaktionsLista::newTrans(){
+    Transaktion *temp = trans;
+    trans = allocTrans(antalTrans + 1);
+    for(int i = 0; i < antalTrans; i++) trans[i] = temp[i];
+    delete[] temp;
+}
 
 double TransaktionsLista::totalkostnad(){
     double total = 0;
@@ -343,7 +374,12 @@ PersonLista::PersonLista(): pers {}{antal_pers = 0;}
 
 PersonLista::~PersonLista(){}
 
-void PersonLista::laggTillEn(Person pny){pers[antal_pers++] = pny;}
+void PersonLista::laggTillEn(Person pny){
+    Person *temp = pers;
+    pers = new Person[antal_pers + 1];
+    for(int i = 0; i < antal_pers; i++) pers[i] = temp[i];
+    pers[antal_pers++] = pny;
+}
 
 void PersonLista::skrivUtOchFixa(){
     for(int i = 0; i < antal_pers; i++){
@@ -403,7 +439,17 @@ Potten stämmer!
 
 ================================================================================
 Uppgiften gick ut på att göra ett program som kan räkna ut data om hur vänner ska 
-dela upp pengar efter ett antal transaktioner (Med statiska arrayer).
+dela upp pengar efter ett antal transaktioner (Med dynamiska arrayer).
 
-(Svar på frågor finns i 6B)
+Tilldelningsoperatorn i klassen Transaktion behövs för att göra en kopia av en transaktion
+, utan tilldelningsoperatorn så skulle "kompisar"-pekaren i transaktionen och kopian 
+peka på samma address. Det vi vill ha är en ny Transaktion som har identiska värden 
+men på en annan minnesaddress.
+
+Tilldelningsoperatorn används i TransaktionsLista's metod laggTill när vi lägger till
+en transaktion i arrayen trans.
+
+"if(this != &t)" är en jämföran mellan 2 minnesaddresser, this är en referens till det
+objektet som utför metoden och &t är en referens till ett Transaktionsobjekt, om de 
+INTE är samma kommer if-satsen köra.
 */
